@@ -37,6 +37,8 @@ def run(inp, out):
     html_files = inp + '/*.html'
     for path in glob.iglob(html_files):
         tok.process(path)
+    tok.write_sorted_tokens()
+    tok.write_sorted_freq()
 
 
 class Tokenizer(object):
@@ -44,6 +46,7 @@ class Tokenizer(object):
     def __init__(self, inp_dir, out_dir):
         self._inp_dir = inp_dir
         self._out_dir = out_dir
+        self._counter = Counter()
 
     def get_clean_text(self, path):
         """Returns the content of the given file with
@@ -62,10 +65,26 @@ class Tokenizer(object):
         with open(out_path, 'w') as f:
             f.write(os.linesep.join(tokens))
 
+    def write_sorted_tokens(self):
+        self._write_sorted('sorted_tokens', sorted(self._counter.items()))
+
+    def write_sorted_freq(self):
+        self._write_sorted('sorted_freq',
+            sorted(self._counter.items(), key=lambda x: x[1], reverse=True))
+
     def process(self, path):
         text = self.get_clean_text(path)
-        self.write_tokens(path, text.split())
+        tokens = text.split()
+        self.write_tokens(path, tokens)
+        self._counter.update(tokens)
 
+    def _write_sorted(self, filename, tuples):
+        out_path = os.path.join(self._out_dir, filename)
+        with open(out_path, 'w') as f:
+            f.write(self._tup_to_str(tuples))
+
+    def _tup_to_str(self, tuples):
+        return os.linesep.join(k + ' ' + str(v) for k, v in tuples)
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
