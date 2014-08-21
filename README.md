@@ -7,13 +7,20 @@ Retrieval course from Fall 2014.
 
 * python3
 * beautifulsoup4
+* lxml
 
 ```bash
 # beautifulsoup4
-curl
-https://pypi.python.org/packages/source/b/beautifulsoup4/beautifulsoup4-4.3.2.tar.gz > beautifulsoup4.tar.gz
-tar -xf beautifulsoup4.tar.gz
+curl -O https://pypi.python.org/packages/source/b/beautifulsoup4/beautifulsoup4-4.3.2.tar.gz
+tar -xf beautifulsoup4-4.3.2.tar.gz
 cd beautifulsoup4
 python3 setup.py install
 ```
 
+```bash
+# lxml
+curl -O https://pypi.python.org/packages/source/l/lxml/lxml-3.3.5.tar.gz
+tar -xf lxml-3.3.5.tar.gz
+cd lxml
+python3 setup.py install
+```

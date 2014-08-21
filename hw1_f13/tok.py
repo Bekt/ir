@@ -56,7 +56,7 @@ class Tokenizer(object):
         TODO: consider using global soup and soup.clear() in here."""
         global trans
         with open(path, errors='ignore') as f:
-            soup = BeautifulSoup(f)
+            soup = BeautifulSoup(f, 'lxml')
             text = soup.get_text(separator=' ')
             return text.translate(trans)
 
