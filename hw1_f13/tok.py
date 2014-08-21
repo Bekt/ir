@@ -51,10 +51,11 @@ class Tokenizer(object):
     def get_clean_text(self, path):
         """Returns the content of the given file with
         HTML tags stripped, punctuations removed, and lowercased.
+        This method ignores non UTF-8 characters.
 
         TODO: consider using global soup and soup.clear() in here."""
         global trans
-        with open(path) as f:
+        with open(path, errors='ignore') as f:
             soup = BeautifulSoup(f)
             text = soup.get_text(separator=' ')
             return text.translate(trans)
