@@ -1,7 +1,9 @@
+import configs
 import string
 
 from bs4 import BeautifulSoup
 from collections import Counter
+
 
 class Tokenizer(object):
     """Text tokenizer."""
@@ -11,8 +13,9 @@ class Tokenizer(object):
                           string.ascii_lowercase,
                           string.punctuation + string.digits)
 
-    def __init__(self):
+    def __init__(self, config=configs.default_tokenizer):
         self._counter = Counter()
+        self._config = config
 
     def tokenize_html(self, path):
         """Tokenizes the contents of the given HTML file.
@@ -29,7 +32,8 @@ class Tokenizer(object):
                 e.decompose()
             text = soup.get_text(separator=' ')
             self.tokenize(text)
-            self.tokenize_href(soup)
+            if self._config['index_urls']:
+                self.tokenize_href(soup)
 
     def tokenize_href(self, soup):
         """Tokenizes the 'href' attribute of all a tags."""
@@ -48,4 +52,7 @@ class Tokenizer(object):
         # Ignore non-ASCII characters.
         text = ''.join(c for c in text if ord(c) > 31 and ord(c) < 127)
         text = text.translate(Tokenizer.trans)
-        self._counter.update(text.split())
+        tokens = [t for t in text.split() 
+                  if len(t) >= self._config['min_len']
+                  and t not in self._config['stopwords']]
+        self._counter.update(tokens)

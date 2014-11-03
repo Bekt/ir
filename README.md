@@ -3,6 +3,9 @@
 These are my submitted assignments for the CSCE 5013 Information
 Retrieval course from Fall 2014.
 
+## Dataset
+1683 HTML documents: http://www.csce.uark.edu/~sgauch/4013-IR/files/
+
 ## Requirements
 
 * python3
