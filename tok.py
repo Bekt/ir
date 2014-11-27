@@ -13,9 +13,10 @@ class Tokenizer(object):
                           string.ascii_lowercase,
                           string.punctuation + string.digits)
 
-    def __init__(self, config=configs.default_tokenizer):
+    def __init__(self, config=configs.default_tokenizer, path=None):
         self._counter = Counter()
         self._config = config
+        self.title = None
 
     def tokenize_html(self, path):
         """Tokenizes the contents of the given HTML file.
@@ -27,6 +28,8 @@ class Tokenizer(object):
         - Removes any punctuation."""
         with open(path, errors='ignore') as f:
             soup = BeautifulSoup(f, 'lxml')
+            if soup.title:
+                self.title = soup.title.text
             junk = ['head', 'script', 'style']
             for e in soup(junk):
                 e.decompose()
@@ -43,7 +46,7 @@ class Tokenizer(object):
             if (href.startswith('//') or
                 href.startswith('http://') or
                 href.startswith('https://')):
-                self._counter[href] += 1
+                self.tokenize(href)
 
     def tokenize(self, text):
         """Splits the given text on whitespace and updates the counter.

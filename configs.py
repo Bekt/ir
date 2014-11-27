@@ -25,5 +25,6 @@ default_indexer = {
     'dict_rec': tuple(int(d) for d in cfg['Indexer']['dict_rec'].split(',')),
     'post_rec': tuple(int(d) for d in cfg['Indexer']['post_rec'].split(',')),
     'map_rec': cfg['Indexer'].getint('map_rec'),
+    'title_rec': cfg['Indexer'].getint('title_rec'),
 }
 

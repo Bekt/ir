@@ -38,6 +38,7 @@ class IndexToc(object):
         self._dict_entries = []
         self._post_entries = []
         self._filenames = []
+        self._titles = []
 
     def run(self):
         if not os.path.exists(self._out):
@@ -49,6 +50,7 @@ class IndexToc(object):
             self._filenames.append(os.path.basename(path))
             self.process(ind, path)
         self.write_mapfile()
+        self.write_titles()
         self.write_dictfile()
         self.write_postfile()
         print(len(self.ht))
@@ -57,6 +59,7 @@ class IndexToc(object):
     def process(self, ind, path):
         tok = Tokenizer()
         tok.tokenize_html(path)
+        self._titles.append(tok.title or 'Untitled')
         for token, freq in tok._counter.items():
             # Normalize by unique tokens.
             self.globalht[token].append([ind, freq / len(tok._counter)])
@@ -67,6 +70,14 @@ class IndexToc(object):
         with open(out_path, 'w') as f:
             f.write(os.linesep.join(
                 [name.ljust(map_rec) for name in self._filenames]))
+
+    def write_titles(self, filename='titles'):
+        out_path = os.path.join(self._out, filename)
+        title_rec = self._config['title_rec']
+        with open(out_path, 'w') as f:
+            f.write(os.linesep.join(
+                [title[:title_rec].ljust(title_rec) 
+                for title in self._titles]))
 
     def write_dictfile(self, filename='dict'):
         docs = len(self._filenames)
