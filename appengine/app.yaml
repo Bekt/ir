@@ -1,0 +1,19 @@
+application: kanat-dev
+version: ir
+runtime: python27
+api_version: 1
+threadsafe: 1
+
+handlers:
+- url: /assets
+  static_dir: assets
+
+- url: /.*
+  script: main.app
+
+libraries:
+- name: jinja2
+  version: latest
+
+- name: webapp2
+  version: latest
