@@ -8,7 +8,7 @@ from io import open
 
 
 def remove_non_ascii(text):
-    return ''.join(c for c in text if 127 > ord(c) > 31)
+    return u''.join(c for c in text if 127 > ord(c) > 31)
 
 
 class Tokenizer(object):
