@@ -7,6 +7,10 @@ from collections import Counter
 from io import open
 
 
+def remove_non_ascii(text):
+    return ''.join(c for c in text if 127 > ord(c) > 31)
+
+
 class Tokenizer(object):
     u"""Text tokenizer."""
 
@@ -56,7 +60,7 @@ class Tokenizer(object):
         The text is first converted to ascii characters only.
         """
         # Ignore non-ASCII characters.
-        text = u''.join(c for c in text if ord(c) > 31 and ord(c) < 127)
+        text = remove_non_ascii(text)
         text = text.translate(Tokenizer.trans)
         tokens = [t for t in text.split() 
                   if len(t) >= self._config[u'min_len']

@@ -25,6 +25,7 @@ import time
 from collections import defaultdict
 from hashtable import Hashtable
 from tok import Tokenizer
+from tok import remove_non_ascii
 from io import open
 
 
@@ -79,7 +80,7 @@ class IndexToc(object):
         title_rec = self._config[u'title_rec']
         with open(out_path, u'w') as f:
             f.write(os.linesep.join(
-                [title[:title_rec].ljust(title_rec) 
+                [remove_non_ascii(title.strip()[:title_rec]).ljust(title_rec)
                 for title in self._titles]))
 
     def write_dictfile(self, filename=u'dict'):

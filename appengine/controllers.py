@@ -1,4 +1,4 @@
-import ir
+import ir.configs
 import os
 import json
 import logging
