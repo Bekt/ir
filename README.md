@@ -6,6 +6,10 @@ Retrieval course from Fall 2014.
 ## Dataset
 1683 HTML documents: http://www.csce.uark.edu/~sgauch/4013-IR/files.tar
 
+## Live Demo
+Please see the
+[appengine](https://github.com/Bekt/csce5013-ir/tree/master/appengine) folder.
+
 ## Requirements
 
 * python3
